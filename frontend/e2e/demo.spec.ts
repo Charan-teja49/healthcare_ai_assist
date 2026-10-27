@@ -1,0 +1,40 @@
+import {test,expect} from '@playwright/test';
+test('six scenarios and edited clinician release in under three minutes',async({page,request,browser})=>{
+ const began=Date.now(),marker='qa-'+Date.now(),email=marker+'@fictional.test';
+ const created=await request.post('/api/auth/register',{data:{name:'Fictional Browser QA',email,password:'Demo@12345',consent:true}});
+ expect(created.ok()).toBeTruthy();
+ await page.goto('/demo');
+ await page.getByRole('combobox',{name:'Language',exact:true}).selectOption('en');
+ await page.getByLabel('Email address',{exact:true}).fill(email);
+ await page.getByLabel('Password',{exact:true}).fill('Demo@12345');
+ await page.getByRole('button',{name:'Sign in',exact:true}).click();
+ await page.getByRole('button',{name:'Run all six scenarios',exact:true}).click();
+ await expect(page.getByText('signal disconnected',{exact:false})).toBeVisible({timeout:60000});
+ await expect(page.getByText('impact and stillness detected',{exact:false})).toBeVisible();
+ const replayLines=page.locator('[aria-live="polite"] > p');
+ await expect(replayLines).toHaveCount(6);
+ await page.screenshot({path:'../docs/e2e-demo.png',fullPage:true});
+ await page.getByRole('button',{name:'Symptom checker',exact:true}).click();
+ await page.getByRole('button',{name:'Start guided intake',exact:true}).click();
+ for(const [index,answer] of ['cough fictional fixture '+marker,'35','2 days','4','sore throat','none'].entries()){
+  await page.getByLabel('Your answer',{exact:true}).fill(answer);
+  const response=page.waitForResponse(r=>r.url().endsWith('/answer')&&r.request().method()==='POST');
+  await page.getByRole('button',{name:'Send answer',exact:true}).click();
+  expect((await response).ok()).toBeTruthy();
+  if(index<5)await expect(page.getByRole('button',{name:'Send answer',exact:true})).toBeEnabled();
+ }
+ await expect(page.getByText('Awaiting assigned doctor approval',{exact:true})).toBeVisible();
+ const doctor=await browser.newContext(),staff=await doctor.newPage();
+ await staff.goto('/');
+ await staff.getByRole('button',{name:'Doctor account',exact:true}).click();
+ await staff.getByRole('button',{name:'Sign in',exact:true}).click();
+ await staff.getByRole('button',{name:/^Doctor review/}).click();
+ const card=staff.locator('.panel.case').filter({hasText:marker});
+ await card.getByLabel('Review action',{exact:true}).selectOption('edited_approved');
+ await card.getByLabel('Clinician note',{exact:true}).fill('Fictional automated review; not medical advice.');
+ await card.getByLabel('Edited guidance',{exact:true}).fill('Approved fictional follow-up from QA.');
+ await card.getByRole('button',{name:'Save review',exact:true}).click();
+ await expect(page.getByText('Approved fictional follow-up from QA.',{exact:true})).toBeVisible({timeout:15000});
+ await doctor.close();
+ expect(Date.now()-began).toBeLessThan(180000);
+});

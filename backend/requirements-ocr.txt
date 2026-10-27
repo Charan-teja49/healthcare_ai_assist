@@ -1,0 +1,2 @@
+pymupdf>=1.25,<2
+# Tesseract executable and language data are installed separately.

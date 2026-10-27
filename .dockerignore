@@ -1,0 +1,17 @@
+.git
+.venv
+**/__pycache__
+**/*.db
+**/*.db-*
+**/*.jwt-secret
+.env
+backups
+artifacts
+datasets
+frontend/node_modules
+frontend/dist
+firmware/.pio
+.pytest_cache
+.ruff_cache
+.coverage
+**/*.log

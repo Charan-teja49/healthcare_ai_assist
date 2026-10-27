@@ -1,0 +1,67 @@
+{
+  "dataset": "synthetic fallback only",
+  "clinical_validation": false,
+  "accuracy": 0.98125,
+  "classes": [
+    "N",
+    "S",
+    "V",
+    "F",
+    "Q"
+  ],
+  "confusion_matrix": [
+    [
+      31,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      2,
+      30,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      32,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      32,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      32
+    ]
+  ],
+  "train_patient_groups": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "validation_patient_groups": [
+    6,
+    7
+  ],
+  "test_patient_groups": [
+    8,
+    9
+  ],
+  "test_samples": 160,
+  "architecture": "Conv1D(6 filters,9) -> ReLU -> flatten -> dense5 -> softmax"
+}

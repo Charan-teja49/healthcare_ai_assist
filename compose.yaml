@@ -1,0 +1,22 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports: ["127.0.0.1:8010:8010"]
+    volumes: ["health-data:/data"]
+    environment:
+      MEDIASSIST_DB: /data/mediassist.db
+    command: ["uvicorn","backend.main:app","--host","0.0.0.0","--port","8010"]
+  web:
+    build:
+      context: frontend
+    ports: ["127.0.0.1:5174:80"]
+    depends_on: [api]
+  mqtt:
+    image: eclipse-mosquitto:2
+    profiles: [devices]
+    ports: ["127.0.0.1:1883:1883"]
+    volumes: ["./infra/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro"]
+volumes:
+  health-data:

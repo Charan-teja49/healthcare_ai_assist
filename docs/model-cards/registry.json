@@ -1,0 +1,28 @@
+{
+  "models": [
+    {
+      "id": "rolling-baseline-iforest-v1",
+      "type": "NumPy Isolation Forest and deviation rules",
+      "status": "implemented; not clinically validated",
+      "window": 30,
+      "minimum_samples": 10,
+      "card": "baseline_isolation_forest.md"
+    },
+    {
+      "id": "ecg-cnn-demo-v1",
+      "type": "Conv1D synthetic beat classifier",
+      "status": "synthetic demonstration only",
+      "artifact": "models/ecg-demo/ecg_cnn.npz",
+      "evaluation": "models/ecg-demo/evaluation.json",
+      "synthetic_accuracy": 0.98125,
+      "clinical_accuracy": null,
+      "real_device_inference": false,
+      "card": "ecg_cnn_model_card.md"
+    },
+    {
+      "id": "symptom-rules-v3",
+      "type": "English/Hindi emergency phrases and conservative clinician routing",
+      "status": "implemented; not clinically validated"
+    }
+  ]
+}

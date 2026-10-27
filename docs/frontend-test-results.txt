@@ -1,0 +1,39 @@
+
+> mediassist@0.4.0 test
+> node --test src/*.test.js
+
+✔ demo account selection resets both email and password (1.9497ms)
+✔ validation errors identify exact fields (0.3912ms)
+✔ API consent message remains actionable (0.4185ms)
+✔ India calendar is independent of browser timezone (1.7721ms)
+✔ date offset crosses month correctly (0.7443ms)
+✔ slots use explicit 24-hour India time (0.3395ms)
+✔ symptom whitespace rejected (0.3431ms)
+✔ duration whitespace rejected (0.2191ms)
+✔ age and severity bounds checked (0.494ms)
+✔ valid fields accepted (0.2949ms)
+✔ successful login JSON is returned without changing credentials or user data (51.2769ms)
+✔ successful list responses are supported (0.6673ms)
+✔ plain proxy failures explain how to start the backend (2.4856ms)
+✔ empty proxy failures also produce the actionable backend message (0.651ms)
+✔ proxy JSON without an API detail is treated as unavailable (0.8906ms)
+✔ 401 credentials remain distinct from connection and session errors (1.2356ms)
+✔ 403 consent errors retain the API explanation (1.273ms)
+✔ 422 validation errors identify each affected field (1.0012ms)
+✔ structured 503 setup errors are preserved rather than called an offline backend (1.1595ms)
+✔ HTML masquerading as a successful API reply is rejected clearly (1.2883ms)
+✔ empty, null, and primitive successful replies violate the API JSON contract (1.1873ms)
+✔ every extracted static interface string has a Hindi translation (3.2157ms)
+✔ Hindi dictionary contains Devanagari text for actionable labels (1.5632ms)
+✔ technical credentials and phone examples stay unchanged (0.329ms)
+✔ PWA installation only caches public shell assets (4.0971ms)
+✔ API requests are never cached or intercepted (2.9911ms)
+✔ offline navigation returns the safe offline page (39.0216ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 249.0306

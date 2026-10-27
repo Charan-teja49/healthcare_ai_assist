@@ -1,0 +1,13 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {errorMessage,indiaDay,slotLabel,validateSymptoms,fillDemoAccount} from './helpers.js';
+test('demo account selection resets both email and password',()=>{const fields={email:{value:'old@test.local'},password:{value:'wrong-password'}};fillDemoAccount({elements:{namedItem:name=>fields[name]}},'patient@demo.local');assert.equal(fields.email.value,'patient@demo.local');assert.equal(fields.password.value,'Demo@12345');});
+test('validation errors identify exact fields',()=>assert.equal(errorMessage({detail:[{loc:['body','age'],msg:'Must be at least 1'}]}),'age: Must be at least 1'));
+test('API consent message remains actionable',()=>assert.match(errorMessage({detail:'Consent is required'}),/Consent/));
+test('India calendar is independent of browser timezone',()=>assert.equal(indiaDay(0,new Date('2026-10-26T20:00:00Z')),'2026-10-27'));
+test('date offset crosses month correctly',()=>assert.equal(indiaDay(1,new Date('2026-10-31T10:00:00Z')),'2026-11-01'));
+test('slots use explicit 24-hour India time',()=>assert.equal(slotLabel('2026-10-28T12:30'),'12:30 IST (24-hour clock)'));
+test('symptom whitespace rejected',()=>assert.match(validateSymptoms({symptoms:'   ',duration:'day',age:30,severity:4}),/symptoms/));
+test('duration whitespace rejected',()=>assert.match(validateSymptoms({symptoms:'cough',duration:' ',age:30,severity:4}),/how long/));
+test('age and severity bounds checked',()=>{for(const age of [0,121,1.5])assert.match(validateSymptoms({symptoms:'cough',duration:'day',age,severity:4}),/Age/);for(const severity of [0,11,2.5])assert.match(validateSymptoms({symptoms:'cough',duration:'day',age:30,severity}),/Severity/);});
+test('valid fields accepted',()=>assert.equal(validateSymptoms({symptoms:'cough',duration:'2 days',age:'30',severity:'4'}),''));

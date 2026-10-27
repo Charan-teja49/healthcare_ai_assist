@@ -1,0 +1,42 @@
+...........................................................................................................................................................................................                                                  [100%]
+============================== warnings summary ===============================
+.venv\Lib\site-packages\fastapi\testclient.py:1
+  C:\Users\chara\OneDrive\Desktop\MediAssist-AI-v0.2.1-Login-Fixed\mediassist\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.14.5-final-0 _______________
+
+Name                               Stmts   Miss  Cover   Missing
+----------------------------------------------------------------
+backend\__init__.py                    0      0   100%
+backend\assessment_model.py           36      1    97%   69
+backend\audit_chain.py                42      1    98%   83
+backend\clinical_routes.py            67      9    87%   17, 28, 78, 84, 95, 103-106
+backend\conversation.py              150     10    93%   85-94, 191, 251, 253, 261, 279, 286, 290
+backend\demo.py                       31      0   100%
+backend\detection.py                 137      9    93%   49, 81, 93, 109, 112, 162, 193, 210, 227
+backend\devices.py                   185     47    75%   55, 62-63, 79, 86-87, 102-103, 112, 118-125, 230, 273, 300, 305-306, 309-313, 325-341, 347-401
+backend\documents.py                  71     19    73%   30, 33, 39, 47-65, 73-74, 97
+backend\ecg_analysis.py               21      0   100%
+backend\ecg_model.py                 106     13    88%   102-106, 117, 120, 154-160
+backend\followups.py                  36      0   100%
+backend\ingestion.py                 174      6    97%   153, 162-163, 170-171, 234
+backend\integrations.py               27      3    89%   30, 42-43
+backend\lab_parser.py                 43      1    98%   202
+backend\language.py                   42     15    64%   48-92, 107
+backend\local_nlp.py                  29      0   100%
+backend\main.py                      604     28    95%   34-39, 49, 54-55, 352, 404, 434, 677-678, 743, 753-766, 778, 822, 869, 904, 931, 1042, 1091, 1099
+backend\models.py                     74      0   100%
+backend\notification_dispatch.py     161     20    88%   24, 171, 183-188, 227, 241-258, 317-319, 353-355
+backend\persistence.py                66      2    97%   106-107
+backend\referrals.py                  76     15    80%   63, 75, 87-95, 106-114, 140-142, 149, 154
+backend\review_workflow.py            54      2    96%   81-83
+backend\schema.py                     20      0   100%
+backend\security.py                   23      1    96%   31
+----------------------------------------------------------------
+TOTAL                               2275    202    91%
+Coverage JSON written to file docs/coverage.json
+Required test coverage of 70.0% reached. Total coverage: 91.12%
+187 passed, 1 warning, 124 subtests passed in 36.26s

@@ -1,0 +1,34 @@
+import { t } from "./i18n.js";
+import React, { useState } from 'react';
+export default function DemoPanel({
+  api,
+  blocked,
+  onComplete
+}) {
+  const scenarios = ['normal_rest', 'arrhythmia_episode', 'low_spo2', 'fever', 'fall', 'leads_off'];
+  const [busy, setBusy] = useState(false),
+    [results, setResults] = useState([]),
+    [error, setError] = useState('');
+  async function run(selected) {
+    setBusy(true);
+    setError('');
+    setResults([]);
+    try {
+      for (const scenario of selected) {
+        const result = await api('/demo/replay', {
+          method: 'POST',
+          body: JSON.stringify({
+            scenario
+          })
+        });
+        setResults(old => [...old, result]);
+      }
+      await onComplete();
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  return <section className="panel"><h1>{t("Scenario demonstration")}</h1><p>{t("Synthetic, time-compressed sensor data. Each replay records 16 seconds of measurements immediately. Alert thresholds are educational; this does not diagnose an arrhythmia.")}</p><button className="primary" disabled={busy || blocked} onClick={() => run(scenarios)}>{t("Run all six scenarios")}</button><div className="sim-controls">{scenarios.map(s => <button className="secondary" disabled={busy || blocked} key={s} onClick={() => run([s])}>{t(s.replaceAll('_', ' '))}</button>)}</div>{error && <p role="alert">{t(error)}</p>}<div aria-live="polite">{results.map(r => <p key={r.scenario}><strong>{t(r.scenario.replaceAll('_', ' '))}</strong>: {r.packet_count} {t("packets;")} {r.new_cases.length} {t("new review cases;")} {t("Recent case IDs:")} {r.related_cases?.map(c=>"#"+c.id).join(", ")||t("None")} · {r.final?.signal === false ? t("signal disconnected") : r.fall_detected ? t("impact and stillness detected") : t("recorded")}</p>)}</div><p>{t("Next: sign in as the assigned cardiologist for vital alerts or the GP for falls, open Doctor review, inspect the original data, and approve or edit the guidance. Normal readings and disconnected leads do not create a clinical diagnosis.")}</p></section>;
+}

@@ -1,0 +1,6 @@
+FICTIONAL DEMONSTRATION REPORT — NOT A PATIENT RECORD
+Hemoglobin: 11.2 g/dL
+Glucose: 108 mg/dL
+Cholesterol: 185 mg/dL
+TSH: 2.1 mIU/L
+Vitamin D: 18 ng/mL
